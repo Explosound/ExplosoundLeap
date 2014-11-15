@@ -3,9 +3,9 @@ ExplosoundLeap
 
 Input : GEXF File with the following XML structure :
 - Node :
--   - ID
--   - Label : Music Title
--   - Path
+-   ID
+-   Label : Music Title
+-   Path : audio file relative path
 -   
 - Edge :
 -   - ID
