@@ -1,0 +1,6 @@
+[submodule "submodules/samples"]
+	path = submodules/samples
+	url = git@github.com:Explosound/ExplosoundSamples.git
+[submodule "submodules/cluster"]
+	path = submodules/cluster
+	url = git@github.com:Explosound/ExplosoundCluster.git
