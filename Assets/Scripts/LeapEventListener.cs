@@ -39,6 +39,7 @@ public class LeapEventListener : Leap.Listener {
 					{
 					case Gesture.GestureState.STATE_START:
 						//Handle starting gestures
+					Debug.Log("Swipe detected");
 						break;
 
 					case Gesture.GestureState.STATE_UPDATE:

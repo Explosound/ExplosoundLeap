@@ -8,7 +8,9 @@ public class LeapCameraControler : MonoBehaviour {
 	// Moving parameters :
 	public float drivingDistance = 30; // TODO : évaluer cette distance dans unity !!
 	public float drivingVelocity = 0.06F;
+	public float drivingAngle = (float)Math.PI / 6F; // 30°
 
+	public Rect driveRect;
 
 	public Leap.Controller controller;
 	public LeapEventListener listener;
@@ -53,29 +55,38 @@ public class LeapCameraControler : MonoBehaviour {
 
 						// Open Hand : driving
 						if(hand.GrabStrength == 0) {
-							if (!driving) { 
-								Debug.Log ("initiate driving");
+							if (!driving) {
+								GUI.Label(new Rect(10,10,60,20), "Driving Enabled");
 								drivingOriginPosition = hand.PalmPosition;
 								drivingOriginDirection = hand.Direction;
 								driving = true;
 							}
+
+							// Transform commands :
 							float deltaX = drivingOriginPosition.x - hand.PalmPosition.x;
 							float deltaY = drivingOriginPosition.y - hand.PalmPosition.y;
 							float deltaZ = drivingOriginPosition.z - hand.PalmPosition.z;
 
 							if (Math.Abs(deltaX) > drivingDistance) {
-								Debug.Log ("XAxis");
 								transform.position-=transform.right * drivingVelocity * (deltaX / drivingDistance);
 							}
 							if (Math.Abs(deltaY) > drivingDistance) {
-								Debug.Log ("YAxis");
 								transform.position-=transform.up * drivingVelocity * (deltaY / drivingDistance);
 							}
 							if (Math.Abs(deltaZ) > drivingDistance) {
-								Debug.Log ("ZAxis");
 								transform.position+=transform.forward * drivingVelocity * (deltaZ / drivingDistance);
 							}
 
+
+							// Rotation commands :
+							if (Math.Abs(hand.Direction.Pitch) > drivingAngle) {
+								float sign = hand.Direction.Pitch / Math.Abs(hand.Direction.Pitch);
+								transform.Rotate(-1 * sign,0,0);
+							}
+							if (Math.Abs(hand.Direction.Yaw) > drivingAngle) {
+								float sign = hand.Direction.Yaw / Math.Abs(hand.Direction.Yaw);
+								transform.Rotate(0,1 * sign,0);
+							}
 						}
 
 
