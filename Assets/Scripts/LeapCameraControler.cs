@@ -152,47 +152,42 @@ public class LeapCameraControler : MonoBehaviour {
 					gestureDetected = false;
 					stopDrivingMode();
 					grabbing = false;
+					zooming = false;
 				}
 			}
 		} else if (hands.Count == 2) {
-			foreach(Hand hand in hands)
+			if(hands[0].PinchStrength == 1 || hands[1].PinchStrength == 1)
 			{
-				if(hand.GrabStrength == 0 || hand.GrabStrength == 1)
-				{
-					if (!gestureDetected) {
-						gestureDetected = true;
-						startGestureTime = Time.time;
-					}
-					else if (Time.time - startGestureTime > 3) {
-						if(hand.GrabStrength == 0) {
-							transform.position+=transform.forward*0.1F;
-						} else 
-						if(hand.GrabStrength == 1) {
-							transform.position-=transform.forward*0.1F;
-						}
-						startDrivingMode(hand);
-						
-						// Driving enabled : handling user control
-						
-						// TODO
-					}
-				} else {
-					startGestureTime = 0;
-					gestureDetected = false;
-					stopDrivingMode();
-					grabbing = false;
+				if (!gestureDetected) {
+					gestureDetected = true;
+					startGestureTime = Time.time;
 				}
+				else if (Time.time - startGestureTime > 1) {
+					zooming = true;
+					
+					// Driving enabled : handling user control
+					
+					// TODO
+				}
+			} else {
+				startGestureTime = 0;
+				gestureDetected = false;
+				stopDrivingMode();
+				grabbing = false;
+				zooming = false;
 			}
 		} else {
 			startGestureTime = 0;
 			gestureDetected = false;
 			stopDrivingMode();
 			grabbing = false;
+			zooming = false;
 		}
 	}
 	
 	public void OnGUI () {
 		if (driving) { GUI.Label(new Rect(10,10,60,20), "Driving Enabled");	}
+		if (zooming) { GUI.Label(new Rect(10,10,60,20), "Zooming Enabled");	}
 		if (askForValidation) { GUI.Label(new Rect(10,10,180,20), "Confirm Saving this sound ?");	}
 	}
 }

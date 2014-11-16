@@ -22,7 +22,7 @@ public class GraphControler : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		clearGraph();
-		loadGraph("part1");
+		loadGraph("test");
 		visibleNodes = new List<GameObject> ();
 	}
 	
