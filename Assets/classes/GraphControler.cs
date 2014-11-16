@@ -15,12 +15,15 @@ public class GraphControler : MonoBehaviour {
 
 	public GameObject NodeView;
 
+	private List<GameObject> visibleNodes;
+
 	int edgeIndex = 0;
 
 	// Use this for initialization
 	void Start () {
 		clearGraph();
-		loadGraph("test");
+		loadGraph("part1");
+		visibleNodes = new List<GameObject> ();
 	}
 	
 	// Update is called once per frame
@@ -70,13 +73,11 @@ public class GraphControler : MonoBehaviour {
 				if(xReader.LocalName == "node"){
 					nodeList.Add(currentNode.getId(),currentNode);
 					GameObject node = (GameObject)Instantiate(NodeView,currentNode.getPosition(),new Quaternion());
-					node.name = currentNode.getLabel();
 
-					// TO REMOVE
-					if (node.name == "Valjean") {
-						AudioClip myClip = Resources.Load<AudioClip>("JBG");
-						node.audio.clip = myClip;
-					}
+					node.name = currentNode.getLabel();
+					WWW w = new WWW("file://" + node.name);
+					AudioClip myClip = w.audioClip;
+					node.audio.clip = myClip;
 
 					node.transform.localScale = currentNode.getSize();
 					node.renderer.material.color = currentNode.getColor();
@@ -93,4 +94,21 @@ public class GraphControler : MonoBehaviour {
 			}
 		}
 	}
+
+	
+	public void registerVisibleNode(GameObject node) {
+		visibleNodes.Add (node);
+	}
+	
+	public void removeVisibleNode(GameObject node) {
+		visibleNodes.Remove (node);
+	}
+
+	public bool isVisibleNode(GameObject node) {
+		return visibleNodes.Contains (node);
+	}
+
+	public List<GameObject> getVisibleNode() {
+				return visibleNodes;
+		}
 }
