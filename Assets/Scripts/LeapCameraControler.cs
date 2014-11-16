@@ -129,11 +129,11 @@ public class LeapCameraControler : MonoBehaviour {
 							// Rotation commands :
 							if (Math.Abs(hand.Direction.Pitch) > drivingAngle) {
 								float sign = hand.Direction.Pitch / Math.Abs(hand.Direction.Pitch);
-								transform.Rotate(-1 * sign,0,0);
+								transform.Rotate(-1 * sign * Math.Abs(hand.Direction.Pitch) / drivingAngle,0,0);
 							}
 							if (Math.Abs(hand.Direction.Yaw) > drivingAngle) {
 								float sign = hand.Direction.Yaw / Math.Abs(hand.Direction.Yaw);
-								transform.Rotate(0,1 * sign,0);
+								transform.Rotate(0,1 * sign * Math.Abs(hand.Direction.Yaw) / drivingAngle,0);
 							}
 						} else if(hand.GrabStrength == 1 && !grabbing) {
 							grabbing = true;
